@@ -4,6 +4,9 @@
     "print": "cpp",
     "format": "cpp",
     "__locale": "cpp",
-    "ios": "cpp"
+    "ios": "cpp",
+    "fstream": "cpp",
+    "sstream": "cpp",
+    "__config": "cpp"
   }
 }
