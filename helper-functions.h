@@ -1,1 +1,1 @@
-int int_clamp(int value, int min, int max);
+int int_value_clamp(int value, int min, int max);

@@ -51,8 +51,6 @@ void setup()
   pinMode(LED_STRIP_PIN, OUTPUT);
   digitalWrite(LED_STRIP_PIN, LOW);
 
-  anim.update_animation();
-
   NeoPixel.begin();
 }
 
@@ -75,12 +73,17 @@ void loop()
   switch (settings.get_mode())
   {
   case 0:
-    for (int current_pixel = 0; current_pixel < NUM_PIXELS; current_pixel++)
-    {
-      NeoPixel.setPixelColor(current_pixel, NeoPixel.Color(255, 255, 255));
-    }
+    // for (int current_pixel = 0; current_pixel < NUM_PIXELS; current_pixel++)
+    // {
+    // NeoPixel.setPixelColor(current_pixel, NeoPixel.Color(255, 255, 255));
+    // }
+    Serial.print("frametime = ");
+    Serial.print(anim.update_animation(false));
+    Serial.print("target = ");
+    Serial.print(anim.get_target_frametime());
     break;
   case 1:
+
     for (int current_pixel = 0; current_pixel < NUM_PIXELS / 6; current_pixel++)
     {
       NeoPixel.setPixelColor(current_pixel, NeoPixel.Color(255, 0, 0));
@@ -93,22 +96,19 @@ void loop()
 
     break;
   case 2:
-    NeoPixel.clear(); // send the updated pixel colors to the NeoPixel hardware.
-    break;
-  case 3:
-    NeoPixel.clear(); // send the updated pixel colors to the NeoPixel hardware.
+    // NeoPixel.clear(); // send the updated pixel colors to the NeoPixel hardware.
     break;
   default:
     settings.set_mode(0);
     break;
   }
 
-  NeoPixel.show(); // send the updated pixel colors to the NeoPixel hardware.
+  // NeoPixel.show(); // send the updated pixel colors to the NeoPixel hardware.
 
   /* ------------------------------- Debug Stuff ------------------------------ */
 
-  Serial.print("mode = ");
-  Serial.print(settings.get_mode());
+  // Serial.print("mode = ");
+  // Serial.print(settings.get_mode());
   // Serial.print("is held = ");
   // Serial.print(button_1.is_pressed());
   // Serial.print("pixel = ");

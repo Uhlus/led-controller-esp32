@@ -17,7 +17,7 @@ Animation_base::Animation_base(int pixel_range_start, int pixel_range_end, int t
   this->set_pixel_range(pixel_range_start, pixel_range_end);
   this->set_target_frametime(target_frametime);
   this->set_loop_point(loop_point);
-  this->set_strip_length(strip_length)
+  this->set_strip_length(strip_length);
 }
 /* -------------------------------------------------------------------------- */
 /*                              Setters & Getters                             */
@@ -48,17 +48,30 @@ int Animation_base::get_target_frametime()
  *
  * @return int current_frametime
  */
-int Animation_base::get_real_frametime()
+int Animation_base::get_frametime_progress()
 {
   int current = millis();
-  int prev = this->get_time_prev_frame();
+  int prev = this->get_start_time_prev_frame();
 
   return (current - prev);
 }
-int Animation_base::get_time_prev_frame()
+int Animation_base::get_start_time_prev_frame()
 {
   return this->previous_millis;
 }
+int Animation_base::set_start_time_current_frame()
+{
+  this->previous_millis = 100;
+}
+void Animation_base::set_frametime_prev_frame(int frametime)
+{
+  this->previous_frametime = frametime;
+}
+int Animation_base::get_frametime_prev_frame()
+{
+  return this->previous_frametime;
+}
+
 /* ------------------------------ pixel ranges ------------------------------ */
 /**
  * @brief sets the range of pixels for the animation
@@ -78,7 +91,7 @@ void Animation_base::set_pixel_range(int start, int end)
  */
 int Animation_base::set_pixel_range_start(int number)
 {
-  this->pixel_range_start = int_clamp(number, 0, NUM_PIXELS);
+  this->pixel_range_start = int_value_clamp(number, 0, this->get_strip_length());
   return this->get_pixel_range_start();
 }
 /**
@@ -97,7 +110,7 @@ int Animation_base::get_pixel_range_start()
  */
 int Animation_base::set_pixel_range_end(int number)
 {
-  this->pixel_range_end = int_clamp(number, 0, NUM_PIXELS);
+  this->pixel_range_end = int_value_clamp(number, 0, this->get_strip_length());
   return this->get_pixel_range_end();
 }
 /**
@@ -174,7 +187,6 @@ int Animation_base::reset_animation()
   this->current_step = 0;
   return this->get_step();
 }
-
 /**
  * @brief prepare the frame
  *
@@ -182,23 +194,26 @@ int Animation_base::reset_animation()
  */
 int Animation_base::update_animation(bool render_now)
 {
+  int time_since_last_frame = this->get_frametime_progress();
   // skip rendering if under the frame limit
-  if (this->get_real_frametime() < this->get_target_frametime())
-  {
-    return -1;
-  }
+  // if (time_since_last_frame < this->get_target_frametime())
+  // {
+  //   return 1000000;
+  // }
   // reset animation if after loop point
-  int current_frame = this->get_step();
-  if (current_frame > this->get_loop_point())
-  {
-    current_frame = this->reset_animation();
-  }
+
+  // if (current_frame > this->get_loop_point())
+  // {
+  //   current_frame = this->reset_animation();
+  // }
   // update frame
 
-  int start = this->get_pixel_range_start();
-  int end = this->get_pixel_range_end();
-  for (int current_pixel = std::min(start, end); current_pixel <= std::max(start, end); current_pixel++)
-  {
-    NeoPixel.setPixelColor(current_pixel, NeoPixel.Color(255, 255, 255));
-  }
+  // int start = this->get_pixel_range_start();
+  // int end = this->get_pixel_range_end();
+  // for (int current_pixel = std::min(start, end); current_pixel <= std::max(start, end); current_pixel++)
+  // {
+  // }
+  // this->set_frametime_prev_frame(time_since_last_frame);
+  // return this->get_frametime_prev_frame();
+  return 0;
 }
