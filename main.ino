@@ -1,11 +1,8 @@
 /**
- * @file Arduino Led Buttons.ino
  * @author Tobias Uhl
  * @brief Controllable W2812B Led Lights
  * @version 0.1
- * @date 2023-11-24
- *
- * @copyright Copyright (c) 2023
+ * @date 2025-05-09
  *
  */
 
@@ -18,7 +15,7 @@
 #include <algorithm>
 #include "settings.h"
 #include "button.h"
-#include "animation.h"
+#include "test.h"
 
 /* -------------------------------------------------------------------------- */
 /*                                   defines                                  */
@@ -33,14 +30,17 @@ Adafruit_NeoPixel NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
 Settings settings(6);
 Button button_1(4);
 
+/* -------------------------------- Animation ------------------------------- */
+
+Animation_base anim(0, 300, 0, 1, NUM_PIXELS);
+
 /* -------------------------------------------------------------------------- */
 /*                              global variables                              */
 /* -------------------------------------------------------------------------- */
 long GLOBAL_time = 0;
 bool reset = true;
 bool button_state = true;
-int out = 0;
-int previous_millis = 0;
+
 /* -------------------------------------------------------------------------- */
 /*                                    setup                                   */
 /* -------------------------------------------------------------------------- */
@@ -50,6 +50,8 @@ void setup()
 
   pinMode(LED_STRIP_PIN, OUTPUT);
   digitalWrite(LED_STRIP_PIN, LOW);
+
+  anim.update_animation();
 
   NeoPixel.begin();
 }
@@ -93,6 +95,9 @@ void loop()
   case 2:
     NeoPixel.clear(); // send the updated pixel colors to the NeoPixel hardware.
     break;
+  case 3:
+    NeoPixel.clear(); // send the updated pixel colors to the NeoPixel hardware.
+    break;
   default:
     settings.set_mode(0);
     break;
@@ -104,12 +109,9 @@ void loop()
 
   Serial.print("mode = ");
   Serial.print(settings.get_mode());
-  Serial.print("frametime = ");
-  Serial.print(millis() - previous_millis);
   // Serial.print("is held = ");
   // Serial.print(button_1.is_pressed());
   // Serial.print("pixel = ");
   // Serial.print(pixel);
   Serial.print("\r\n");
-  previous_millis = millis();
 }
