@@ -1,23 +1,14 @@
 #include "test.h"
 #include "helper-functions.h"
-#include <Adafruit_NeoPixel.h>
+
 #include <iostream>
 using namespace std;
 
 /**
  * @brief Construct a new Animation_base::Animation_base object
- *
- * @param pixel_range_start
- * @param pixel_range_end
- * @param target_frametime
- * @param loop_point
  */
-Animation_base::Animation_base(int pixel_range_start, int pixel_range_end, int target_frametime, int loop_point, int strip_length)
+Animation_base::Animation_base()
 {
-  this->set_pixel_range(pixel_range_start, pixel_range_end);
-  this->set_target_frametime(target_frametime);
-  this->set_loop_point(loop_point);
-  this->set_strip_length(strip_length);
 }
 /* -------------------------------------------------------------------------- */
 /*                              Setters & Getters                             */
@@ -149,6 +140,7 @@ int Animation_base::get_loop_point()
  */
 int Animation_base::set_strip_length(int number)
 {
+
   this->strip_length = number;
 }
 /**
@@ -195,6 +187,17 @@ int Animation_base::reset_animation()
 int Animation_base::update_animation(bool render_now)
 {
   int time_since_last_frame = this->get_frametime_progress();
+  Serial.print(get_pixel_range_end());
+  for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
+  {
+    this->setPixelColor(current_pixel, Color(255, 0, 0));
+    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(255, 50, 0));
+    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(225, 200, 0));
+    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(0, 255, 38));
+    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(0, 30, 255));
+    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(115, 0, 130));
+  }
+
   // skip rendering if under the frame limit
   // if (time_since_last_frame < this->get_target_frametime())
   // {

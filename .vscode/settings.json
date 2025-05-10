@@ -9,6 +9,7 @@
     "sstream": "cpp",
     "__config": "cpp",
     "valarray": "cpp",
-    "set": "cpp"
+    "set": "cpp",
+    "algorithm": "cpp"
   }
 }
