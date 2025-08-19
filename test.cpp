@@ -52,7 +52,7 @@ int Animation_base::get_start_time_prev_frame()
 }
 int Animation_base::set_start_time_current_frame()
 {
-  this->previous_millis = 100;
+  return this->previous_millis = millis();
 }
 void Animation_base::set_frametime_prev_frame(int frametime)
 {
@@ -186,17 +186,88 @@ int Animation_base::reset_animation()
  */
 int Animation_base::update_animation(bool render_now)
 {
+  this->set_target_frametime(100);
   int time_since_last_frame = this->get_frametime_progress();
   Serial.print(get_pixel_range_end());
-  for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
+  // for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
+  // {
+  //   this->setPixelColor(current_pixel, Color(255, 0, 0));
+  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(255, 50, 0));
+  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(225, 200, 0));
+  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(0, 255, 38));
+  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(0, 30, 255));
+  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(115, 0, 130));
+  // }
+
+  Serial.print("===");
+  for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
   {
-    this->setPixelColor(current_pixel, Color(255, 0, 0));
-    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(255, 50, 0));
-    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(225, 200, 0));
-    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(0, 255, 38));
-    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(0, 30, 255));
-    this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(115, 0, 130));
+    int offset = this->get_step();
+    int current_pixel_modulo = (current_pixel + offset) % 6;
+
+    // Serial.print("offset = ");
+    // Serial.print(offset);
+    // Serial.print(" | ");
+    // Serial.print("current_pixel = ");
+    // Serial.print(current_pixel);
+    // Serial.print(" | ");
+    // Serial.print("current_pixel_modulo = ");
+    // Serial.print(current_pixel_modulo);
+
+    if (current_pixel_modulo == 0)
+    {
+      // Serial.print(" | red");
+      this->setPixelColor(current_pixel, Color(255, 0, 0));
+    }
+    if (current_pixel_modulo == 1)
+    {
+      // Serial.print(" | orange");
+      this->setPixelColor(current_pixel, Color(255, 50, 0));
+    }
+    if (current_pixel_modulo == 2)
+    {
+      // Serial.print(" | yellow");
+      this->setPixelColor(current_pixel, Color(225, 200, 0));
+    }
+    if (current_pixel_modulo == 3)
+    {
+      // Serial.print(" | green");
+      this->setPixelColor(current_pixel, Color(0, 255, 38));
+    }
+    if (current_pixel_modulo == 4)
+    {
+      // Serial.print(" | blue");
+      this->setPixelColor(current_pixel, Color(0, 30, 255));
+    }
+    if (current_pixel_modulo == 5)
+    {
+      // Serial.print(" | purple");
+      this->setPixelColor(current_pixel, Color(115, 0, 130));
+    }
+    // Serial.print(" ||| ");
+    // Serial.print("\r\n");
   }
+  Serial.print("\r\n");
+  Serial.print(time_since_last_frame);
+  Serial.print("\r\n");
+  if (time_since_last_frame >= this->get_target_frametime())
+  {
+    this->set_start_time_current_frame();
+    if (this->step() >= 6)
+    {
+      // Serial.print("\r\n");
+      // Serial.print(" -------- reset -------- ");
+      // Serial.print("\r\n");
+      this->reset_animation();
+    }
+  }
+
+  // Serial.print("===");
+
+  // for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+  // {
+  //   this->setPixelColor(current_pixel, Color(50, 50, 50));
+  // }
 
   // skip rendering if under the frame limit
   // if (time_since_last_frame < this->get_target_frametime())
