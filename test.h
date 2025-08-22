@@ -39,5 +39,5 @@ public:
   int get_step();
   int set_loop_point(int number);
   int reset_animation();
-  int update_animation(bool render_now);
+  int update_animation(bool render_now, int animation_id);
 };

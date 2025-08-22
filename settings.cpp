@@ -17,8 +17,10 @@ Settings::Settings(int max_modes)
  * @return int
  */
 int Settings::set_mode(int mode)
+
 {
-	mode = int_value_clamp(mode, 0, this->max_modes);
+	int max_mode_id = this->max_modes - 1;
+	mode = int_value_clamp(mode, 0, max_mode_id);
 
 	this->current_mode = mode;
 	return get_mode();
@@ -39,7 +41,8 @@ int Settings::get_mode()
  */
 int Settings::increase_mode()
 {
+	int max_mode_id = this->max_modes - 1;
 	int mode = get_mode() + 1;
-	mode = (mode > this->max_modes) ? 0 : mode;
+	mode = (mode > max_mode_id) ? 0 : mode;
 	return set_mode(mode);
 }

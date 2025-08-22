@@ -132,7 +132,7 @@ int Animation_base::get_loop_point()
 {
   return this->loop_point;
 }
-/**
+/**2560x1440
  * @brief sets the number of LEDs in the strip
  *
  * @param number
@@ -184,110 +184,143 @@ int Animation_base::reset_animation()
  *
  * @return int
  */
-int Animation_base::update_animation(bool render_now)
+int Animation_base::update_animation(bool render_now, int animation_id)
 {
-  this->set_target_frametime(100);
   int time_since_last_frame = this->get_frametime_progress();
-  Serial.print(get_pixel_range_end());
-  // for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
-  // {
-  //   this->setPixelColor(current_pixel, Color(255, 0, 0));
-  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(255, 50, 0));
-  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(225, 200, 0));
-  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(0, 255, 38));
-  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(0, 30, 255));
-  //   this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(115, 0, 130));
-  // }
 
-  Serial.print("===");
-  for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+  switch (animation_id)
   {
-    int offset = this->get_step();
-    int current_pixel_modulo = (current_pixel + offset) % 6;
-
-    // Serial.print("offset = ");
-    // Serial.print(offset);
-    // Serial.print(" | ");
-    // Serial.print("current_pixel = ");
-    // Serial.print(current_pixel);
-    // Serial.print(" | ");
-    // Serial.print("current_pixel_modulo = ");
-    // Serial.print(current_pixel_modulo);
-
-    if (current_pixel_modulo == 0)
+  case 0:
+    this->set_target_frametime(1000);
+    this->set_loop_point(1);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
     {
-      // Serial.print(" | red");
       this->setPixelColor(current_pixel, Color(255, 0, 0));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(255, 50, 0));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(225, 200, 0));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(0, 255, 38));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(0, 30, 255));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(115, 0, 130));
     }
-    if (current_pixel_modulo == 1)
+    break;
+  case 1:
+    this->set_target_frametime(250);
+    this->set_loop_point(6);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
     {
-      // Serial.print(" | orange");
-      this->setPixelColor(current_pixel, Color(255, 50, 0));
+      int offset = this->get_step();
+      int current_pixel_modulo = (current_pixel + offset) % 6;
+
+      if (current_pixel_modulo == 0)
+      {
+        this->setPixelColor(current_pixel, Color(255, 0, 0));
+      }
+      if (current_pixel_modulo == 1)
+      {
+        this->setPixelColor(current_pixel, Color(255, 50, 0));
+      }
+      if (current_pixel_modulo == 2)
+      {
+        this->setPixelColor(current_pixel, Color(225, 200, 0));
+      }
+      if (current_pixel_modulo == 3)
+      {
+        this->setPixelColor(current_pixel, Color(0, 255, 38));
+      }
+      if (current_pixel_modulo == 4)
+      {
+        this->setPixelColor(current_pixel, Color(0, 30, 255));
+      }
+      if (current_pixel_modulo == 5)
+      {
+        this->setPixelColor(current_pixel, Color(115, 0, 130));
+      }
     }
-    if (current_pixel_modulo == 2)
+    break;
+  case 2:
+    this->set_target_frametime(30);
+    this->set_loop_point(this->get_pixel_range_end());
+
+    this->setPixelColor(this->get_step(), Color(255, 255, 255));
+    this->setPixelColor((this->get_step() - 1), Color(0, 0, 0));
+
+    break;
+  case 3:
+    this->set_target_frametime(100);
+    this->set_loop_point(this->get_pixel_range_end() / 6);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
     {
-      // Serial.print(" | yellow");
-      this->setPixelColor(current_pixel, Color(225, 200, 0));
+      float color_offset = ((((float)this->get_step() / (float)this->get_loop_point()) + ((float)current_pixel / ((float)this->get_pixel_range_end() / (float)6))) / 2);
+
+      // Serial.print((int)lerp(100, 255, color_offset));
+      this->setPixelColor(current_pixel, Color(
+                                             (int)lerp(0, 255, color_offset),
+                                             (int)lerp(0, 0, color_offset),
+                                             (int)lerp(0, 0, color_offset)
+
+                                                 ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(
+
+                                                                               (int)lerp(191, 255, color_offset),
+                                                                               (int)lerp(38, 50, color_offset),
+                                                                               (int)lerp(0, 0, color_offset)
+
+                                                                                   ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(
+
+                                                                                   (int)lerp(191, 225, color_offset),
+                                                                                   (int)lerp(150, 200, color_offset),
+                                                                                   (int)lerp(0, 0, color_offset)
+
+                                                                                       ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(
+
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(191, 255, color_offset),
+                                                                                   (int)lerp(29, 38, color_offset)
+
+                                                                                       ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(
+
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(23, 30, color_offset),
+                                                                                   (int)lerp(191, 255, color_offset)
+
+                                                                                       ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(
+
+                                                                                   (int)lerp(86, 115, color_offset),
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(98, 130, color_offset)
+
+                                                                                       ));
     }
-    if (current_pixel_modulo == 3)
-    {
-      // Serial.print(" | green");
-      this->setPixelColor(current_pixel, Color(0, 255, 38));
-    }
-    if (current_pixel_modulo == 4)
-    {
-      // Serial.print(" | blue");
-      this->setPixelColor(current_pixel, Color(0, 30, 255));
-    }
-    if (current_pixel_modulo == 5)
-    {
-      // Serial.print(" | purple");
-      this->setPixelColor(current_pixel, Color(115, 0, 130));
-    }
-    // Serial.print(" ||| ");
-    // Serial.print("\r\n");
+    break;
+  default:
+    break;
   }
-  Serial.print("\r\n");
-  Serial.print(time_since_last_frame);
-  Serial.print("\r\n");
   if (time_since_last_frame >= this->get_target_frametime())
   {
     this->set_start_time_current_frame();
-    if (this->step() >= 6)
+    Serial.print("ft ");
+    Serial.print(time_since_last_frame);
+    Serial.print("ms");
+    Serial.print(" | f ");
+    Serial.print(this->get_step() + 1);
+    Serial.print("| mxf ");
+    Serial.print(this->get_loop_point());
+    if (this->step() >= this->get_loop_point())
     {
-      // Serial.print("\r\n");
-      // Serial.print(" -------- reset -------- ");
+      Serial.print(" | l 1 ");
       // Serial.print("\r\n");
       this->reset_animation();
     }
+    else
+    {
+      Serial.print(" | l 0 ");
+    }
+    Serial.print("\n\r");
   }
 
-  // Serial.print("===");
-
-  // for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
-  // {
-  //   this->setPixelColor(current_pixel, Color(50, 50, 50));
-  // }
-
-  // skip rendering if under the frame limit
-  // if (time_since_last_frame < this->get_target_frametime())
-  // {
-  //   return 1000000;
-  // }
-  // reset animation if after loop point
-
-  // if (current_frame > this->get_loop_point())
-  // {
-  //   current_frame = this->reset_animation();
-  // }
-  // update frame
-
-  // int start = this->get_pixel_range_start();
-  // int end = this->get_pixel_range_end();
-  // for (int current_pixel = std::min(start, end); current_pixel <= std::max(start, end); current_pixel++)
-  // {
-  // }
-  // this->set_frametime_prev_frame(time_since_last_frame);
-  // return this->get_frametime_prev_frame();
   return 0;
 }
