@@ -23,7 +23,8 @@
 
 /* -------------------------------- LED Sting ------------------------------- */
 #define LED_STRIP_PIN 2
-#define NUM_PIXELS 534
+#define NUM_PIXELS 89
+// #define NUM_PIXELS 534
 // #define NUM_PIXELS 300
 
 Animation_base NeoPixel;
