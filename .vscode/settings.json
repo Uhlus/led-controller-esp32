@@ -11,5 +11,6 @@
     "valarray": "cpp",
     "set": "cpp",
     "algorithm": "cpp"
-  }
+  },
+  "C_Cpp.default.compilerPath": "/usr/bin/clang"
 }

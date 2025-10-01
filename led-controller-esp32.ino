@@ -35,7 +35,7 @@ Button button_1(4);
 
 /* -------------------------------- Animation ------------------------------- */
 
-// Adafruit_NeoPixel anim(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel anim(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
 
 /* -------------------------------------------------------------------------- */
 /*                              global variables                              */

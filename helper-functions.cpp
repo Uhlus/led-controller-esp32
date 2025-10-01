@@ -22,7 +22,7 @@ int int_value_clamp(int value, int min, int max)
  * @param t
  * @return float
  */
-float lerp(float a, float b, float t)
-{
-	return (a * (1.0 - t)) + (b * t);
-}
+// float lerp(float a, float b, float t)
+// {
+// 	return (a * (1.0 - t)) + (b * t);
+// }
