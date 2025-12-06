@@ -23,14 +23,14 @@
 
 /* -------------------------------- LED Sting ------------------------------- */
 #define LED_STRIP_PIN 2
-#define NUM_PIXELS 89
+// #define NUM_PIXELS 88
+#define NUM_PIXELS 528
 // #define NUM_PIXELS 534
-// #define NUM_PIXELS 300
 
 Animation_base NeoPixel;
 
 /* --------------------------------- Button --------------------------------- */
-Settings settings(4);
+Settings settings(6);
 Button button_1(4);
 
 /* -------------------------------- Animation ------------------------------- */
