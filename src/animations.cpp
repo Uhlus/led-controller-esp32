@@ -1,4 +1,4 @@
-#include "test.h"
+#include "animations.h"
 #include "helper-functions.h"
 
 #include <iostream>

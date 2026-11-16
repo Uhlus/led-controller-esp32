@@ -15,7 +15,7 @@
 #include <algorithm>
 #include "settings.h"
 #include "button.h"
-#include "test.h"
+#include "animations.h"
 
 /* -------------------------------------------------------------------------- */
 /*                                   defines                                  */
