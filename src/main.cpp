@@ -9,7 +9,7 @@
 /* -------------------------------------------------------------------------- */
 /*                                  includes                                  */
 /* -------------------------------------------------------------------------- */
-
+#include <Arduino.h>
 #include <iostream>
 #include <Adafruit_NeoPixel.h>
 #include <algorithm>
@@ -50,7 +50,7 @@ int px = 0;
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println("ESP32 started");
   pinMode(LED_STRIP_PIN, OUTPUT);
   digitalWrite(LED_STRIP_PIN, LOW);
 

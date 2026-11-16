@@ -34,7 +34,7 @@ public:
   int set_pixel_range_end(int number);
   int get_pixel_range_end();
   /* ----------------------------- animation data ----------------------------- */
-  int set_strip_length(int number);
+  void set_strip_length(int number);
   int get_strip_length();
   int get_step();
   int set_loop_point(int number);

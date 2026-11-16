@@ -138,10 +138,11 @@ int Animation_base::get_loop_point()
  * @param number
  * @return int
  */
-int Animation_base::set_strip_length(int number)
+void Animation_base::set_strip_length(int number)
 {
 
   this->strip_length = number;
+  return;
 }
 /**
  * @brief gets the number of LEDs in the strip
@@ -252,46 +253,46 @@ int Animation_base::update_animation(bool render_now, int animation_id)
     {
       float color_offset = ((((float)this->get_step() / (float)this->get_loop_point()) + ((float)current_pixel / ((float)this->get_pixel_range_end() / (float)6))) / 2);
 
-      // Serial.print((int)lerp(100, 255, color_offset));
+      // Serial.print((int)linear_interpolate(100, 255, color_offset));
       this->setPixelColor(current_pixel, Color(
-                                             (int)lerp(0, 255, color_offset),
-                                             (int)lerp(0, 0, color_offset),
-                                             (int)lerp(0, 0, color_offset)
+                                             (int)linear_interpolate(0, 255, color_offset),
+                                             (int)linear_interpolate(0, 0, color_offset),
+                                             (int)linear_interpolate(0, 0, color_offset)
 
                                                  ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(
 
-                                                                               (int)lerp(191, 255, color_offset),
-                                                                               (int)lerp(38, 50, color_offset),
-                                                                               (int)lerp(0, 0, color_offset)
+                                                                               (int)linear_interpolate(191, 255, color_offset),
+                                                                               (int)linear_interpolate(38, 50, color_offset),
+                                                                               (int)linear_interpolate(0, 0, color_offset)
 
                                                                                    ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(
 
-                                                                                   (int)lerp(191, 225, color_offset),
-                                                                                   (int)lerp(150, 200, color_offset),
-                                                                                   (int)lerp(0, 0, color_offset)
+                                                                                   (int)linear_interpolate(191, 225, color_offset),
+                                                                                   (int)linear_interpolate(150, 200, color_offset),
+                                                                                   (int)linear_interpolate(0, 0, color_offset)
 
                                                                                        ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(
 
-                                                                                   (int)lerp(0, 0, color_offset),
-                                                                                   (int)lerp(191, 255, color_offset),
-                                                                                   (int)lerp(29, 38, color_offset)
+                                                                                   (int)linear_interpolate(0, 0, color_offset),
+                                                                                   (int)linear_interpolate(191, 255, color_offset),
+                                                                                   (int)linear_interpolate(29, 38, color_offset)
 
                                                                                        ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(
 
-                                                                                   (int)lerp(0, 0, color_offset),
-                                                                                   (int)lerp(23, 30, color_offset),
-                                                                                   (int)lerp(191, 255, color_offset)
+                                                                                   (int)linear_interpolate(0, 0, color_offset),
+                                                                                   (int)linear_interpolate(23, 30, color_offset),
+                                                                                   (int)linear_interpolate(191, 255, color_offset)
 
                                                                                        ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(
 
-                                                                                   (int)lerp(86, 115, color_offset),
-                                                                                   (int)lerp(0, 0, color_offset),
-                                                                                   (int)lerp(98, 130, color_offset)
+                                                                                   (int)linear_interpolate(86, 115, color_offset),
+                                                                                   (int)linear_interpolate(0, 0, color_offset),
+                                                                                   (int)linear_interpolate(98, 130, color_offset)
 
                                                                                        ));
     }
