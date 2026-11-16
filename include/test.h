@@ -21,7 +21,7 @@ private:
   int step();
 
 public:
-  Animation_base();
+  Animation_base(uint16_t pixels, uint8_t pin, neoPixelType type);
   /* -------------------------------- frametime ------------------------------- */
   int set_target_frametime(int frametime);
   int get_target_frametime();

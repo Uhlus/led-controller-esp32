@@ -23,14 +23,17 @@
 
 /* -------------------------------- LED Sting ------------------------------- */
 #define LED_STRIP_PIN 2
-#define NUM_PIXELS 89
+// #define NUM_PIXELS 33
+#define NUM_PIXELS 50
 // #define NUM_PIXELS 534
 // #define NUM_PIXELS 300
 
-Animation_base NeoPixel;
+// Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
+
+Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_RGB + NEO_KHZ800);
 
 /* --------------------------------- Button --------------------------------- */
-Settings settings(4);
+Settings settings(5);
 Button button_1(4);
 
 /* -------------------------------- Animation ------------------------------- */
@@ -51,17 +54,15 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("ESP32 started");
-  pinMode(LED_STRIP_PIN, OUTPUT);
-  digitalWrite(LED_STRIP_PIN, LOW);
 
-  NeoPixel.setPin(LED_STRIP_PIN);
-  NeoPixel.updateType(NEO_GRB + NEO_KHZ800);
-  NeoPixel.updateLength(NUM_PIXELS);
-  // NeoPixel.set_strip_length(NUM_PIXELS);
   NeoPixel.set_pixel_range_start(0);
   NeoPixel.set_pixel_range_end(NUM_PIXELS);
 
   NeoPixel.begin();
+  NeoPixel.clear();
+  NeoPixel.show();
+
+  Serial.println("LED initialization completed");
 }
 
 void loop()
