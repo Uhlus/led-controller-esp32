@@ -24,13 +24,13 @@
 /* -------------------------------- LED Sting ------------------------------- */
 #define LED_STRIP_PIN 2
 // #define NUM_PIXELS 33
-#define NUM_PIXELS 50
-// #define NUM_PIXELS 534
+// #define NUM_PIXELS 50
+#define NUM_PIXELS 534
 // #define NUM_PIXELS 300
 
-// Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
+// Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_BGR + NEO_KHZ800);
 
-Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_RGB + NEO_KHZ800);
+Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
 
 /* --------------------------------- Button --------------------------------- */
 Settings settings(5);
