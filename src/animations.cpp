@@ -192,60 +192,60 @@ int Animation_base::update_animation(bool render_now, int animation_id)
   switch (animation_id)
   {
   case 0:
+  {
+    /* ------------------------------- Pride Flag ------------------------------- */
     this->set_target_frametime(1000);
     this->set_loop_point(1);
+    int pixels_one_line = this->get_pixel_range_end() / 6;
     for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
     {
-      this->setPixelColor(current_pixel, Color(255, 0, 0));
-      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(255, 50, 0));
-      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(225, 200, 0));
-      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(0, 255, 38));
-      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(0, 30, 255));
-      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(115, 0, 130));
+      this->setPixelColor(current_pixel + pixels_one_line * 5, Color(255, 0, 0));
+      this->setPixelColor(current_pixel + pixels_one_line * 4, Color(255, 50, 0));
+      this->setPixelColor(current_pixel + pixels_one_line * 3, Color(225, 200, 0));
+      this->setPixelColor(current_pixel + pixels_one_line * 2, Color(0, 255, 38));
+      this->setPixelColor(current_pixel + pixels_one_line * 1, Color(0, 30, 255));
+      this->setPixelColor(current_pixel + pixels_one_line * 0, Color(115, 0, 130));
     }
-    break;
+  }
+  break;
   case 1:
-    this->set_target_frametime(250);
-    this->set_loop_point(6);
-    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+  {
+    /* --------------------------------- Bi Flag -------------------------------- */
+    this->set_target_frametime(1000);
+    this->set_loop_point(1);
+    int pixels_one_line = (this->get_pixel_range_end() / 6);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
     {
-      int offset = this->get_step();
-      int current_pixel_modulo = (current_pixel + offset) % 6;
+      int color = Color(214, 2, 76);
+      if (current_pixel >= (pixels_one_line / 3))
+      {
+        color = Color(155, 31, 147);
+      }
+      if (current_pixel >= (pixels_one_line / 3 * 2))
+      {
+        color = Color(0, 8, 168);
+      }
 
-      if (current_pixel_modulo == 0)
-      {
-        this->setPixelColor(current_pixel, Color(255, 0, 0));
-      }
-      if (current_pixel_modulo == 1)
-      {
-        this->setPixelColor(current_pixel, Color(255, 50, 0));
-      }
-      if (current_pixel_modulo == 2)
-      {
-        this->setPixelColor(current_pixel, Color(225, 200, 0));
-      }
-      if (current_pixel_modulo == 3)
-      {
-        this->setPixelColor(current_pixel, Color(0, 255, 38));
-      }
-      if (current_pixel_modulo == 4)
-      {
-        this->setPixelColor(current_pixel, Color(0, 30, 255));
-      }
-      if (current_pixel_modulo == 5)
-      {
-        this->setPixelColor(current_pixel, Color(115, 0, 130));
-      }
+      this->setPixelColor(current_pixel + pixels_one_line * 5, color);
+      this->setPixelColor(current_pixel + pixels_one_line * 4, color);
+      this->setPixelColor(current_pixel + pixels_one_line * 3, color);
+      this->setPixelColor(current_pixel + pixels_one_line * 2, color);
+      this->setPixelColor(current_pixel + pixels_one_line * 1, color);
+      this->setPixelColor(current_pixel + pixels_one_line * 0, color);
     }
-    break;
+  }
+  break;
+
   case 2:
+  {
+    /* --------------------------------- fadeout -------------------------------- */
     this->set_target_frametime(30);
     this->set_loop_point(this->get_pixel_range_end());
 
     this->setPixelColor(this->get_step(), Color(255, 255, 255));
     this->setPixelColor((this->get_step() - 1), Color(0, 0, 0));
-
-    break;
+  }
+  break;
   case 3:
     this->set_target_frametime(100);
     this->set_loop_point(this->get_pixel_range_end() / 6);
@@ -253,51 +253,194 @@ int Animation_base::update_animation(bool render_now, int animation_id)
     {
       float color_offset = ((((float)this->get_step() / (float)this->get_loop_point()) + ((float)current_pixel / ((float)this->get_pixel_range_end() / (float)6))) / 2);
 
-      // Serial.print((int)linear_interpolate(100, 255, color_offset));
+      // Serial.print((int)lerp(100, 255, color_offset));
       this->setPixelColor(current_pixel, Color(
-                                             (int)linear_interpolate(0, 255, color_offset),
-                                             (int)linear_interpolate(0, 0, color_offset),
-                                             (int)linear_interpolate(0, 0, color_offset)
+                                             (int)lerp(0, 255, color_offset),
+                                             (int)lerp(0, 0, color_offset),
+                                             (int)lerp(0, 0, color_offset)
 
                                                  ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(
 
-                                                                               (int)linear_interpolate(191, 255, color_offset),
-                                                                               (int)linear_interpolate(38, 50, color_offset),
-                                                                               (int)linear_interpolate(0, 0, color_offset)
+                                                                               (int)lerp(191, 255, color_offset),
+                                                                               (int)lerp(38, 50, color_offset),
+                                                                               (int)lerp(0, 0, color_offset)
 
                                                                                    ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(
 
-                                                                                   (int)linear_interpolate(191, 225, color_offset),
-                                                                                   (int)linear_interpolate(150, 200, color_offset),
-                                                                                   (int)linear_interpolate(0, 0, color_offset)
+                                                                                   (int)lerp(191, 225, color_offset),
+                                                                                   (int)lerp(150, 200, color_offset),
+                                                                                   (int)lerp(0, 0, color_offset)
 
                                                                                        ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(
 
-                                                                                   (int)linear_interpolate(0, 0, color_offset),
-                                                                                   (int)linear_interpolate(191, 255, color_offset),
-                                                                                   (int)linear_interpolate(29, 38, color_offset)
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(191, 255, color_offset),
+                                                                                   (int)lerp(29, 38, color_offset)
 
                                                                                        ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(
 
-                                                                                   (int)linear_interpolate(0, 0, color_offset),
-                                                                                   (int)linear_interpolate(23, 30, color_offset),
-                                                                                   (int)linear_interpolate(191, 255, color_offset)
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(23, 30, color_offset),
+                                                                                   (int)lerp(191, 255, color_offset)
 
                                                                                        ));
       this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(
 
-                                                                                   (int)linear_interpolate(86, 115, color_offset),
-                                                                                   (int)linear_interpolate(0, 0, color_offset),
-                                                                                   (int)linear_interpolate(98, 130, color_offset)
+                                                                                   (int)lerp(86, 115, color_offset),
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(98, 130, color_offset)
 
                                                                                        ));
     }
     break;
   case 4:
+  {
+    /* ------------------------------- waving Flag ------------------------------ */
+    this->set_target_frametime(100);
+    this->set_loop_point(this->get_pixel_range_end() / 6);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
+    {
+      float color_offset = ((((float)this->get_step() / (float)this->get_loop_point()) + ((float)current_pixel / ((float)this->get_pixel_range_end() / (float)6))) / 2);
+
+      // Serial.print((int)lerp(100, 255, color_offset));
+      this->setPixelColor(current_pixel, Color(
+                                             (int)lerp(0, 255, color_offset),
+                                             (int)lerp(0, 0, color_offset),
+                                             (int)lerp(0, 0, color_offset)
+
+                                                 ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6, Color(
+
+                                                                               (int)lerp(191, 255, color_offset),
+                                                                               (int)lerp(38, 50, color_offset),
+                                                                               (int)lerp(0, 0, color_offset)
+
+                                                                                   ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 2, Color(
+
+                                                                                   (int)lerp(191, 225, color_offset),
+                                                                                   (int)lerp(150, 200, color_offset),
+                                                                                   (int)lerp(0, 0, color_offset)
+
+                                                                                       ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 3, Color(
+
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(191, 255, color_offset),
+                                                                                   (int)lerp(29, 38, color_offset)
+
+                                                                                       ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 4, Color(
+
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(23, 30, color_offset),
+                                                                                   (int)lerp(191, 255, color_offset)
+
+                                                                                       ));
+      this->setPixelColor(current_pixel + this->get_pixel_range_end() / 6 * 5, Color(
+
+                                                                                   (int)lerp(86, 115, color_offset),
+                                                                                   (int)lerp(0, 0, color_offset),
+                                                                                   (int)lerp(98, 130, color_offset)
+
+                                                                                       ));
+    }
+  }
+  break;
+  case 5:
+  {
+    /* --------------------------- all leds same Color -------------------------- */
+    this->set_target_frametime(1000);
+    this->set_loop_point(6);
+
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+    {
+      if (this->get_step() == 0)
+      {
+        this->setPixelColor(current_pixel, Color(255, 0, 0));
+      }
+      if (this->get_step() == 1)
+      {
+        this->setPixelColor(current_pixel, Color(255, 50, 0));
+      }
+      if (this->get_step() == 2)
+      {
+        this->setPixelColor(current_pixel, Color(225, 200, 0));
+      }
+      if (this->get_step() == 3)
+      {
+        this->setPixelColor(current_pixel, Color(0, 255, 38));
+      }
+      if (this->get_step() == 4)
+      {
+        this->setPixelColor(current_pixel, Color(0, 30, 255));
+      }
+      if (this->get_step() == 5)
+      {
+        this->setPixelColor(current_pixel, Color(115, 0, 130));
+      }
+    }
+  }
+  break;
+  case 6:
+  {
+    /* -------------------------------- all white ------------------------------- */
+    this->set_target_frametime(250);
+    this->set_loop_point(2);
+
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+    {
+      if (this->get_step() == 0)
+      {
+        this->setPixelColor(current_pixel, Color(255, 255, 255));
+      }
+      // if (this->get_step() == 1)
+      // {
+      //   this->setPixelColor(current_pixel, Color(0, 0, 0));
+      // }
+    }
+  }
+  break;
+  case 7:
+    /* -------------------------------- many dots ------------------------------- */
+    this->set_target_frametime(250);
+    this->set_loop_point(6);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+    {
+      int offset = this->get_step();
+      int current_pixel_modulo = (current_pixel + offset) % 6;
+
+      if (current_pixel_modulo == 5)
+      {
+        this->setPixelColor(current_pixel, Color(255, 0, 0));
+      }
+      if (current_pixel_modulo == 4)
+      {
+        this->setPixelColor(current_pixel, Color(255, 50, 0));
+      }
+      if (current_pixel_modulo == 3)
+      {
+        this->setPixelColor(current_pixel, Color(225, 200, 0));
+      }
+      if (current_pixel_modulo == 2)
+      {
+        this->setPixelColor(current_pixel, Color(0, 255, 38));
+      }
+      if (current_pixel_modulo == 1)
+      {
+        this->setPixelColor(current_pixel, Color(0, 30, 255));
+      }
+      if (current_pixel_modulo == 0)
+      {
+        this->setPixelColor(current_pixel, Color(115, 0, 130));
+      }
+    }
+    break;
+  case 8:
     this->set_target_frametime(1000);
     this->set_loop_point(2);
     for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)

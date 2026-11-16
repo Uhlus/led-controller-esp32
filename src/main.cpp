@@ -25,20 +25,22 @@
 #define LED_STRIP_PIN 2
 // #define NUM_PIXELS 33
 // #define NUM_PIXELS 50
-#define NUM_PIXELS 534
 // #define NUM_PIXELS 300
+// #define NUM_PIXELS 528
+#define NUM_PIXELS 534
 
 // Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_BGR + NEO_KHZ800);
 
 Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
 
 /* --------------------------------- Button --------------------------------- */
-Settings settings(5);
+
+Settings settings(9);
 Button button_1(4);
 
 /* -------------------------------- Animation ------------------------------- */
 
-// Adafruit_NeoPixel anim(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel anim(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
 
 /* -------------------------------------------------------------------------- */
 /*                              global variables                              */
