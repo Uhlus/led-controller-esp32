@@ -297,6 +297,22 @@ int Animation_base::update_animation(bool render_now, int animation_id)
                                                                                        ));
     }
     break;
+  case 4:
+    this->set_target_frametime(1000);
+    this->set_loop_point(2);
+    for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
+    {
+      if ((current_pixel + this->get_step()) % 2 == 0)
+      {
+
+        this->setPixelColor(current_pixel, Color(255, 0, 0));
+      }
+      else
+      {
+        this->setPixelColor(current_pixel, Color(0, 255, 0));
+      }
+    }
+    break;
   default:
     break;
   }
