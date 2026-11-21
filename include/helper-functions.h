@@ -1,2 +1,3 @@
+#include <stdint.h>
 int int_value_clamp(int value, int min, int max);
-float linear_interpolate(float a, float b, float t);
+uint8_t splitColor(uint32_t c, char value);

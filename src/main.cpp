@@ -23,19 +23,18 @@
 
 /* -------------------------------- LED Sting ------------------------------- */
 #define LED_STRIP_PIN 2
-// #define NUM_PIXELS 33
-// #define NUM_PIXELS 50
-// #define NUM_PIXELS 300
-// #define NUM_PIXELS 528
-#define NUM_PIXELS 534
 
-// Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_BGR + NEO_KHZ800);
+// #define NUM_PIXELS 50 // Tree
+// #define NUM_PIXELS 300 // Desk
+#define NUM_PIXELS 534 // Kallax
 
-Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800);
+// Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_BGR + NEO_KHZ800); // Tree
+
+Animation_base NeoPixel(NUM_PIXELS, LED_STRIP_PIN, NEO_GRB + NEO_KHZ800); // Kallax / Desk
 
 /* --------------------------------- Button --------------------------------- */
 
-Settings settings(9);
+Settings settings(11);
 Button button_1(4);
 
 /* -------------------------------- Animation ------------------------------- */
@@ -65,6 +64,8 @@ void setup()
   NeoPixel.show();
 
   Serial.println("LED initialization completed");
+
+  // settings.set_mode(8);
 }
 
 void loop()

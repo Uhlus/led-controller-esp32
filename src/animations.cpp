@@ -206,8 +206,9 @@ int Animation_base::update_animation(bool render_now, int animation_id)
       this->setPixelColor(current_pixel + pixels_one_line * 1, Color(0, 30, 255));
       this->setPixelColor(current_pixel + pixels_one_line * 0, Color(115, 0, 130));
     }
+
+    break;
   }
-  break;
   case 1:
   {
     /* --------------------------------- Bi Flag -------------------------------- */
@@ -233,9 +234,9 @@ int Animation_base::update_animation(bool render_now, int animation_id)
       this->setPixelColor(current_pixel + pixels_one_line * 1, color);
       this->setPixelColor(current_pixel + pixels_one_line * 0, color);
     }
-  }
-  break;
 
+    break;
+  }
   case 2:
   {
     /* --------------------------------- fadeout -------------------------------- */
@@ -244,9 +245,11 @@ int Animation_base::update_animation(bool render_now, int animation_id)
 
     this->setPixelColor(this->get_step(), Color(255, 255, 255));
     this->setPixelColor((this->get_step() - 1), Color(0, 0, 0));
+
+    break;
   }
-  break;
   case 3:
+  {
     this->set_target_frametime(100);
     this->set_loop_point(this->get_pixel_range_end() / 6);
     for (int current_pixel = 0; current_pixel < this->get_pixel_range_end() / 6; current_pixel++)
@@ -297,6 +300,7 @@ int Animation_base::update_animation(bool render_now, int animation_id)
                                                                                        ));
     }
     break;
+  }
   case 4:
   {
     /* ------------------------------- waving Flag ------------------------------ */
@@ -349,8 +353,9 @@ int Animation_base::update_animation(bool render_now, int animation_id)
 
                                                                                        ));
     }
+
+    break;
   }
-  break;
   case 5:
   {
     /* --------------------------- all leds same Color -------------------------- */
@@ -384,8 +389,9 @@ int Animation_base::update_animation(bool render_now, int animation_id)
         this->setPixelColor(current_pixel, Color(115, 0, 130));
       }
     }
+
+    break;
   }
-  break;
   case 6:
   {
     /* -------------------------------- all white ------------------------------- */
@@ -403,9 +409,11 @@ int Animation_base::update_animation(bool render_now, int animation_id)
       //   this->setPixelColor(current_pixel, Color(0, 0, 0));
       // }
     }
+
+    break;
   }
-  break;
   case 7:
+  {
     /* -------------------------------- many dots ------------------------------- */
     this->set_target_frametime(250);
     this->set_loop_point(6);
@@ -440,29 +448,106 @@ int Animation_base::update_animation(bool render_now, int animation_id)
       }
     }
     break;
+  }
   case 8:
-    this->set_target_frametime(1000);
-    this->set_loop_point(2);
+  {
+    /* Holiday lights */
+
+    this->set_target_frametime(10000);
+    this->set_loop_point(4);
     for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
     {
-      if ((current_pixel + this->get_step()) % 2 == 0)
-      {
 
-        this->setPixelColor(current_pixel, Color(255, 0, 0));
-      }
-      else
+      int color_id = (current_pixel + this->get_step()) % 4;
+      if (color_id == 0)
       {
-        this->setPixelColor(current_pixel, Color(0, 255, 0));
+        /*Red*/
+        this->setPixelColor(current_pixel, Color(255, 10, 10));
+      }
+      if (color_id == 1)
+      {
+        /*Green*/
+        this->setPixelColor(current_pixel, Color(30, 250, 30));
+      }
+      if (color_id == 2)
+      {
+        /*Yellow*/
+        this->setPixelColor(current_pixel, Color(255, 170, 0));
+      }
+      if (color_id == 3)
+      {
+        /*Blue*/
+        this->setPixelColor(current_pixel, Color(20, 20, 250));
       }
     }
     break;
+  }
+  case 9:
+  {
+
+    /* random */
+
+    this->set_target_frametime(1000);
+    this->set_loop_point(2);
+    if (time_since_last_frame >= this->get_target_frametime())
+    {
+      for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+      {
+        int R = rand() % 256;
+        int G = rand() % 256;
+        int B = rand() % 256;
+        this->setPixelColor(current_pixel, Color(R, G, B));
+      }
+    }
+    break;
+  }
+  case 10:
+  {
+
+    /* twinkle */
+
+    this->set_target_frametime(33);
+    this->set_loop_point(2);
+    if (time_since_last_frame >= this->get_target_frametime())
+    {
+      for (int current_pixel = 0; current_pixel < this->get_pixel_range_end(); current_pixel++)
+      {
+        int R = 0;
+        int G = 0;
+        int B = 0;
+        bool RN = (rand() % 500 == 0);
+        if (RN)
+        {
+          R = 255;
+          G = 255;
+          B = 255;
+        }
+        else
+        {
+
+          R = splitColor(this->getPixelColor(current_pixel), 'r');
+          G = splitColor(this->getPixelColor(current_pixel), 'g');
+          B = splitColor(this->getPixelColor(current_pixel), 'b');
+
+          R = max(R - 2, 0);
+          G = max(G - 2, 0);
+          B = max(B - 2, 0);
+        }
+
+        this->setPixelColor(current_pixel, Color(R, G, B));
+      }
+      break;
+    }
+  }
   default:
     break;
   }
   if (time_since_last_frame >= this->get_target_frametime())
   {
     this->set_start_time_current_frame();
-    Serial.print("ft ");
+    Serial.print("an ");
+    Serial.print(animation_id);
+    Serial.print("| ft ");
     Serial.print(time_since_last_frame);
     Serial.print("ms");
     Serial.print(" | f ");
